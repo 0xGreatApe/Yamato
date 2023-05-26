@@ -16,20 +16,20 @@ Using the “**Solidity By Example”** `Ballot.sol` as the basis for a Ballot c
 
 # Yamato:
 
-Yamato refers to the ancient historical period and clan in Japan, often associated with the early imperial rule and the foundation of the Japanese state. This name draws inspiration from Asian history and carries a sense of tradition and cultural significance
+Yamato refers to the ancient historical period and clan in Japan, often associated with the early imperial rule and the foundation of the Japanese state.
 
 # File Structure
 
-We require 2 **Contracts**:
+Smart Contracts:
 
 - ERC20 Contract - `Yamato.sol` ( I’ve given my project the name `Yamato` )
 - TokenizedBallot Contract - `YamatoBallot.sol`
 
-We require 1 test scripts:
+Test Scripts
 
 - `YamatoBallotTest.ts`
 
-We require several scripts:
+Scripts:
 
 - `YamatoDeploy.ts` - this script will deploy both contracts, it will also allow the deployer to mint some tokens for themselves to get started.
 - `CastingVotes.ts` - this script will allow the caller to cast votes using the `YamatoBallot`

@@ -1,6 +1,8 @@
 import { ethers } from "ethers";
 
-async function main() {}
+async function main() {
+  
+}
 
 main().catch((error) => {
   console.error(error);
