@@ -28,7 +28,7 @@ async function main() {
 
   // get delegatee address from user input
   const args = process.argv;
-  const delegateeAddress = args[3];
+  const delegateeAddress = args[2];
   if (!delegateeAddress || delegateeAddress.length <= 0)
     throw new Error("Error, no Delegatee address entered");
   if (!ethers.utils.isAddress(delegateeAddress))
@@ -37,7 +37,7 @@ async function main() {
   // delegate tokens
   try {
     const delegateSelfTx = await yamatoContract
-      .connect(signer.address)
+      .connect(signer)
       .delegate(delegateeAddress);
     const delegateTxReceipt = await delegateSelfTx.wait();
     console.log(

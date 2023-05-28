@@ -28,7 +28,7 @@ async function main() {
 
   // get snapshot from script input:
   const args = process.argv;
-  const newSnapshotTarget = args[3];
+  const newSnapshotTarget = args[2];
   if (!newSnapshotTarget || newSnapshotTarget.length <= 0)
     throw new Error("Error invalid snapshot number entered");
 
