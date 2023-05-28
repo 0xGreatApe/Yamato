@@ -19,15 +19,6 @@ async function main() {
   const wallet = new ethers.Wallet(privateKey);
   const signer = wallet.connect(provider);
 
-  //read user entered info:
-  const args = process.argv;
-  const proposalToVote = args[2];
-  const voteAmount = args[3];
-
-  let proposalIndex = ethers.BigNumber.from(proposalToVote);
-  let voteCount = ethers.BigNumber.from(voteAmount);
-  //TODO: Check
-
   //connect to smart contracts
   const yamatoBallotContractFactory = new YamatoTokenizedBallot__factory(
     signer
@@ -36,12 +27,36 @@ async function main() {
     String(process.env.YAMATO_BALLOT_CONTRACT_ADDRESS)
   );
 
+  //read user entered info:
+  const args = process.argv;
+  const proposalToVote = args[2];
+  const amountToVote = args[3];
+
+  let totalProposals = ethers.BigNumber.from(
+    yamatoBallotContract.proposals.length
+  );
+
+  let userVotePower = await yamatoBallotContract.votingPower(signer.address);
+
+  let proposalIndex = ethers.BigNumber.from(proposalToVote);
+  let votesCast = ethers.BigNumber.from(amountToVote);
+  //TODO: Checki nput validity:
+  if (
+    proposalIndex < ethers.BigNumber.from(0) ||
+    proposalIndex >= totalProposals
+  ) {
+    throw new Error("Error: Invalid proposal index");
+  }
+
+  if (votesCast > userVotePower)
+    throw new Error("Error: user does not have enough voting power");
+
   try {
-    const voteTx = await yamatoBallotContract.vote(proposalIndex, voteCount);
+    const voteTx = await yamatoBallotContract.vote(proposalIndex, votesCast);
     const voteTxReceipt = await voteTx.wait();
 
     console.log(
-      `the user ${signer.address} placed ${voteAmount} of votes for proposal: ${proposalToVote} at ${voteTxReceipt.blockNumber}`
+      `the user ${signer.address} placed ${votesCast} of votes for proposal: ${proposalToVote} at ${voteTxReceipt.blockNumber}`
     );
   } catch (error) {
     console.log(`Error casting vote: ${error}`);
