@@ -40,7 +40,7 @@ async function main() {
 
   let proposalIndex = ethers.BigNumber.from(proposalToVote);
   let votesCast = ethers.BigNumber.from(amountToVote);
-  //TODO: Checki nput validity:
+  // Check input validity:
   if (
     proposalIndex < ethers.BigNumber.from(0) ||
     proposalIndex >= totalProposals
