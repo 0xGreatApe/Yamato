@@ -1,9 +1,6 @@
 import { ethers } from "ethers";
 import * as dotenv from "dotenv";
-import {
-  YamatoTokenizedBallot__factory,
-  Yamato__factory,
-} from "../typechain-types";
+import { YamatoTokenizedBallot__factory } from "../typechain-types";
 dotenv.config();
 
 async function main() {
@@ -25,7 +22,7 @@ async function main() {
     signer
   );
   const yamatoBallotContract = yamatoBallotContractFactory.attach(
-    String(process.env.YAMATO_CONTRACT_ADDRESS)
+    String(process.env.YAMATO_BALLOT_CONTRACT_ADDRESS)
   );
 
   const winnerName = await yamatoBallotContract.winnerName();

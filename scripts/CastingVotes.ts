@@ -3,7 +3,9 @@ import * as dotenv from "dotenv";
 import { YamatoTokenizedBallot__factory } from "../typechain-types";
 dotenv.config();
 /*
-  call this script using: yarn run ts-node --files ./scripts/CastingVotes.ts "proposal" "amount"
+  call this script using: yarn run ts-node --files ./scripts/CastingVotes.ts {proposal} {amount}
+  where {proposal} is an integer index of valid proposals
+  and {amount} is an integer value of tokens to vote
 */
 async function main() {
   //setup provider
@@ -19,8 +21,12 @@ async function main() {
 
   //read user entered info:
   const args = process.argv;
-  const proposalToVote = args[3];
-  const voteAmount = args[4];
+  const proposalToVote = args[2];
+  const voteAmount = args[3];
+
+  let proposalIndex = ethers.BigNumber.from(proposalToVote);
+  let voteCount = ethers.BigNumber.from(voteAmount);
+  //TODO: Check
 
   //connect to smart contracts
   const yamatoBallotContractFactory = new YamatoTokenizedBallot__factory(
@@ -29,9 +35,9 @@ async function main() {
   const yamatoBallotContract = yamatoBallotContractFactory.attach(
     String(process.env.YAMATO_BALLOT_CONTRACT_ADDRESS)
   );
-  
+
   try {
-    const voteTx = await yamatoBallotContract.vote(0, 10);
+    const voteTx = await yamatoBallotContract.vote(proposalIndex, voteCount);
     const voteTxReceipt = await voteTx.wait();
 
     console.log(
