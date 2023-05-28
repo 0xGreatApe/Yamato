@@ -3,8 +3,11 @@ import * as dotenv from "dotenv";
 import { Yamato__factory } from "../typechain-types";
 dotenv.config();
 
-
-
+/* To call script:
+ * yarn run ts-node --files ./scripts/DelegateVotingPower.ts {delegatorAddress} {delegateeAddress}
+ * where {delegatorAddress} is the ethereum address of the delegator and signer of this script
+ * & {delegateeAddress} is the ethereum address of the delegatee to receive the voting power
+ */
 async function main() {
   // setup wallet and provider
   const provider = new ethers.providers.InfuraProvider(
@@ -22,13 +25,23 @@ async function main() {
   const yamatoContract = yamatoContractFactory.attach(
     String(process.env.YAMATO_CONTRACT_ADDRESS)
   );
+
+  // get delegatee address from user input
+  const args = process.argv;
+  const delegateeAddress = args[3];
+  if (!delegateeAddress || delegateeAddress.length <= 0)
+    throw new Error("Error, no Delegatee address entered");
+  if (!ethers.utils.isAddress(delegateeAddress))
+    throw new Error("Delegatee Address is an Invalid Ethereum Address entered");
+
+  // delegate tokens
   try {
     const delegateSelfTx = await yamatoContract
-      .connect(signer)
-      .delegate(signer.address);
+      .connect(signer.address)
+      .delegate(delegateeAddress);
     const delegateTxReceipt = await delegateSelfTx.wait();
     console.log(
-      `The tokens were delegated from the user ${signer.address} to itself at ${delegateTxReceipt.blockNumber}`
+      `The tokens were delegated from the user ${signer.address} to the user ${delegateeAddress} at ${delegateTxReceipt.blockNumber}`
     );
   } catch (error) {
     console.log(`Error, unable to delegate voting power: ${error}`);
