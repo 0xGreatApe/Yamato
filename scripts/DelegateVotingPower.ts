@@ -2,6 +2,9 @@ import { ethers } from "ethers";
 import * as dotenv from "dotenv";
 import { Yamato__factory } from "../typechain-types";
 dotenv.config();
+
+
+
 async function main() {
   // setup wallet and provider
   const provider = new ethers.providers.InfuraProvider(

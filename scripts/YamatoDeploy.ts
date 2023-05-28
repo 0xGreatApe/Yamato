@@ -6,8 +6,10 @@ import {
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const MINT_VALUE = ethers.utils.parseEther("10");
-const PROPOSALS = ["Proposal 1", "Proposal 2", "Proposal 3"];
+const PROPOSALS = ["Akihito", "Naruhito", "Fumiko"];
+
+//0xAd4489CA4cEc71D70E19bCf9B77Cdad216788f5D
+// 0x416b696869746f  0x4e6172756869746f 0x46756d696b6f
 const BLOCK_TARGET = 1;
 
 function convertStringArrayToBytes32(array: string[]) {

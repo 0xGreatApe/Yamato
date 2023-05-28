@@ -107,4 +107,24 @@ describe("Yamato Tokenized Ballot", async () => {
       throw Error("Not implemented");
     });
   });
+
+  describe("when a user tries to set the snapshot block for votes", function () {
+    it("only allows the owner to call the function", async function () {
+      // call the function as another user and ensure it reverts with, only Owner can call
+      // call the function as the owner and ensure the snapshot works correctly.
+      throw Error("Not implemented");
+    });
+    it("checks that the owner has tried to set the targetBlock to a valid block number", async function () {
+      // get current block Number,
+      // call the function to set the Blocknumber
+      // ensure it reverts with the right message
+      // TODO
+      throw Error("Not implemented");
+    });
+    it("when the owner calls the function, the new snapshot block is changed correctly", async function () {
+      // TODO
+      throw Error("Not implemented");
+    });
+
+  });
 });

@@ -13,10 +13,12 @@ contract YamatoTokenizedBallot {
     uint256 public blockTarget;
     IYamato public tokenContract;
     Proposal[] public proposals;
+    address public owner;
 
     mapping(address => uint256) public votingPowerSpent;
 
     constructor(bytes32[] memory proposalNames, address _tokenContract, uint256 _blockTarget ) {
+        owner = msg.sender;
         tokenContract = IYamato(_tokenContract);
         blockTarget = _blockTarget;
         for (uint i = 0; i < proposalNames.length; i++) {
@@ -26,6 +28,11 @@ contract YamatoTokenizedBallot {
                 voteCount: 0
             }));
         }
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Error only Owner can call this function");
+        _;
     }
 
     function vote(uint proposal, uint256 amount) external {
@@ -57,6 +64,11 @@ contract YamatoTokenizedBallot {
             returns (bytes32 winnerName_)
     {
         winnerName_ = proposals[winningProposal()].name;
+    }
+
+    function setSnapshotBlock(uint256 newTargetBlock) public onlyOwner() {
+        require(newTargetBlock >= 0 && newTargetBlock < block.number); 
+            blockTarget = newTargetBlock;
     }
 
 }
