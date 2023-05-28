@@ -8,8 +8,6 @@ dotenv.config();
 
 const PROPOSALS = ["Akihito", "Naruhito", "Fumiko"];
 
-//0xAd4489CA4cEc71D70E19bCf9B77Cdad216788f5D
-// 0x416b696869746f  0x4e6172756869746f 0x46756d696b6f
 const BLOCK_TARGET = 1;
 
 function convertStringArrayToBytes32(array: string[]) {
